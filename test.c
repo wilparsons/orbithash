@@ -2,10 +2,12 @@
 #include "entro-crypt.h"
 
 int main(void) {
-  const char *input = "message";
-  uint32_t digest[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+  const char *input_1 = "message_1";
+  const char *input_2 = "message_2";
+  uint32_t entropy[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
-  entro_crypt(input, digest);
-  printf("%08X%08X%08X%08X%08X%08X%08X%08X\n", digest[0], digest[1], digest[2], digest[3], digest[4], digest[5], digest[6], digest[7]);
+  entro_crypt(input_1, entropy);
+  entro_crypt(input_2, entropy);
+  printf("%08X%08X%08X%08X%08X%08X%08X%08X\n", entropy[0], entropy[1], entropy[2], entropy[3], entropy[4], entropy[5], entropy[6], entropy[7]);
   return 0;
 }

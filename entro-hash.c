@@ -1,7 +1,7 @@
 #include "entro-hash.h"
 
 uint32_t entro_hash(const char *input, uint32_t entropy) {
-  unsigned long i = 0;
+  unsigned long long i = 0;
 
   while (input[i] != 0) {
     entropy ^= (input[i] + 111111) ^ 111111;
