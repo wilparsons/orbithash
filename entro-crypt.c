@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "entro-crypt.h"
 #include "entro-hash.h"
 
