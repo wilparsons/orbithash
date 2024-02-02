@@ -7,7 +7,10 @@ void entro_crypt(const char *input, uint32_t *entropy) {
 
   entropy[0] = 0;
 
-  while (i != 7) {
+  while (
+    i != 7 &&
+    input[i] != 0
+  ) {
     if (input[i] != 0) {
       auxiliary[0] = input[i];
 
@@ -29,6 +32,11 @@ void entro_crypt(const char *input, uint32_t *entropy) {
 
     i++;
     entropy[i] = entro_hash(auxiliary, entropy[i - 1]);
+  }
+
+  while (i != 7) {
+    i++;
+    entropy[i] = entro_hash("", entropy[i - 1]);
   }
 
   i = 0;
