@@ -1,5 +1,5 @@
 # OrbitHash
-![OrbitHash Logo](https://repository-images.githubusercontent.com/739451555/4b3214f2-3c69-44ae-9ab2-c6c6b21440b6)
+![OrbitHash Logo](https://repository-images.githubusercontent.com/739451555/3f6a1979-8f13-4e00-9c18-6fe17db37463)
 
 ## Description
 OrbitHash is a 256-bit, cryptographic hashing algorithm.
