@@ -34,4 +34,4 @@ The return value data type is `void`.
 ## Support
 OrbitHash was designed and developed by [Wil Parsons](https://wilparsons.com/).
 
-I'm available for freelance work to extend, modifify or implement OrbitHash and other algorithms.
+I'm available for freelance work to extend, implement or modify OrbitHash and other algorithms.
