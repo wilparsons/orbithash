@@ -11,27 +11,22 @@ void orbithash(const char *input, uint32_t *entropy) {
     i != 7 &&
     input[i] != 0
   ) {
-    if (input[i] != 0) {
-      auxiliary[0] = input[i];
+    auxiliary[0] = input[i];
 
-      if (input[i + 1] != 0) {
-        auxiliary[1] = input[i + 1];
+    if (input[i + 1] != 0) {
+      auxiliary[1] = input[i + 1];
 
-        if (input[i + 2] != 0) {
-          auxiliary[2] = input[i + 2];
-          auxiliary[3] = 1;
-          auxiliary[4] = 0;
-        } else {
-          auxiliary[2] = 1;
-          auxiliary[3] = 0;
-        }
+      if (input[i + 2] != 0) {
+        auxiliary[2] = input[i + 2];
+        auxiliary[3] = 1;
+        auxiliary[4] = 0;
       } else {
-        auxiliary[1] = 1;
-        auxiliary[2] = 0;
+        auxiliary[2] = 1;
+        auxiliary[3] = 0;
       }
     } else {
-      auxiliary[0] = 1;
-      auxiliary[1] = 0;
+      auxiliary[1] = 1;
+      auxiliary[2] = 0;
     }
 
     i++;
