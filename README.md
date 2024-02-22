@@ -32,6 +32,6 @@ This is the hashing function that accepts the 2 following arguments.
 The return value data type is `void`.
 
 ## Support
-OrbitHash was designed and developed by [Wil Parsons](https://wilparsons.com/).
+OrbitHash was designed and developed by [Wil Parsons](https://wilparsons.github.io).
 
 I'm available for freelance work to extend, implement or modify OrbitHash and other algorithms.
