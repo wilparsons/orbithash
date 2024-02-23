@@ -76,4 +76,5 @@ void orbithash(const char *input, uint32_t *entropy) {
   entropy[5] += entropy[4];
   entropy[6] += entropy[5];
   entropy[7] += entropy[6];
+  entropy[0] += entropy[7];
 }
