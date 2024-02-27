@@ -74,19 +74,19 @@ void orbithash(const char *input, uint32_t *entropy) {
   }
 
   entropy[0] += entropy[7];
-  entropy[1] ^= entropy[0];
-  entropy[2] += entropy[1];
-  entropy[3] ^= entropy[2];
-  entropy[4] += entropy[3];
-  entropy[5] ^= entropy[4];
-  entropy[6] += entropy[5];
-  entropy[7] ^= entropy[6];
-  entropy[0] ^= entropy[7];
-  entropy[1] += entropy[0];
-  entropy[2] ^= entropy[1];
-  entropy[3] += entropy[2];
-  entropy[4] ^= entropy[3];
-  entropy[5] += entropy[4];
-  entropy[6] ^= entropy[5];
-  entropy[7] += entropy[6];
+  entropy[1] ^= entropy[0] + entropy[6];
+  entropy[2] ^= entropy[1] + entropy[5];
+  entropy[3] ^= entropy[2] + entropy[4];
+  entropy[4] ^= entropy[3] + entropy[3];
+  entropy[5] ^= entropy[4] + entropy[2];
+  entropy[6] ^= entropy[5] + entropy[1];
+  entropy[7] ^= entropy[6] + entropy[0];
+  entropy[6] += entropy[0] << 8;
+  entropy[5] += entropy[1] << 7;
+  entropy[4] += entropy[2] << 6;
+  entropy[3] += entropy[3] << 5;
+  entropy[2] += entropy[4] << 4;
+  entropy[1] += entropy[5] << 3;
+  entropy[0] += entropy[6] << 2;
+  entropy[7] += entropy[0] << 1;
 }
