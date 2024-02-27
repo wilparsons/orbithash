@@ -1,8 +1,7 @@
 #include "orbithash.h"
-#include "quakehash.h"
 
 void orbithash(const char *input, uint32_t *entropy) {
-  char auxiliary[5];
+  uint32_t copied_entropy;
   unsigned long i = 0;
 
   entropy[0] = 1111111111;
@@ -11,60 +10,66 @@ void orbithash(const char *input, uint32_t *entropy) {
     i != 7 &&
     input[i] != 0
   ) {
-    auxiliary[0] = input[i];
+    i++;
+    entropy[i] += entropy[i - 1];
 
-    if (input[i + 1] != 0) {
-      auxiliary[1] = input[i + 1];
-
-      if (input[i + 2] != 0) {
-        auxiliary[2] = input[i + 2];
-        auxiliary[3] = 1;
-        auxiliary[4] = 0;
+    if (input[i] != 0) {
+      if (input[i + 1] != 0) {
+        entropy[i] += input[i - 1];
+        entropy[i] += (entropy[i] + 111111111) << 9;
+        entropy[i] += input[i];
+        entropy[i] += (entropy[i] + 111111111) << 9;
+        entropy[i] += input[i + 1];
+        entropy[i] += ((entropy[i] + 111111111) << 9) + 1;
+        entropy[i] += (entropy[i] + 111111111) << 9;
       } else {
-        auxiliary[2] = 1;
-        auxiliary[3] = 0;
+        entropy[i] += input[i - 1];
+        entropy[i] += (entropy[i] + 111111111) << 9;
+        entropy[i] += input[i];
+        entropy[i] += ((entropy[i] + 111111111) << 9) + 1;
+        entropy[i] += (entropy[i] + 111111111) << 9;
       }
     } else {
-      auxiliary[1] = 1;
-      auxiliary[2] = 0;
+      entropy[i] += input[i - 1];
+      entropy[i] += ((entropy[i] + 111111111) << 9) + 1;
+      entropy[i] += (entropy[i] + 111111111) << 9;
     }
-
-    i++;
-    entropy[i] = quakehash(auxiliary, entropy[i - 1]);
   }
 
-  if (i != 7) {
-    auxiliary[0] = 1;
-    auxiliary[1] = 0;
-
-    while (i != 7) {
-      i++;
-      entropy[i] = quakehash(auxiliary, entropy[i - 1]);
-    }
+  while (i != 7) {
+    i++;
+    entropy[i] = entropy[i - 1] + 1;
+    entropy[i] += (entropy[i] + 111111111) << 9;
   }
 
   i = 0;
 
   while (input[i] != 0) {
-    auxiliary[0] = input[i];
+    copied_entropy = entropy[(i + 1) & 7];
 
     if (input[i + 1] != 0) {
-      auxiliary[1] = input[i + 1];
-
       if (input[i + 2] != 0) {
-        auxiliary[2] = input[i + 2];
-        auxiliary[3] = 1;
-        auxiliary[4] = 0;
+        copied_entropy += input[i];
+        copied_entropy += (copied_entropy + 111111111) << 9;
+        copied_entropy += input[i + 1];
+        copied_entropy += (copied_entropy + 111111111) << 9;
+        copied_entropy += input[i + 2];
+        copied_entropy += ((copied_entropy + 111111111) << 9) + 1;
+        copied_entropy += (copied_entropy + 111111111) << 9;
       } else {
-        auxiliary[2] = 1;
-        auxiliary[3] = 0;
+        copied_entropy += input[i];
+        copied_entropy += (copied_entropy + 111111111) << 9;
+        copied_entropy += input[i + 1];
+        copied_entropy += ((copied_entropy + 111111111) << 9) + 1;
+        copied_entropy += (copied_entropy + 111111111) << 9;
       }
     } else {
-      auxiliary[1] = 1;
-      auxiliary[2] = 0;
+      copied_entropy += input[i];
+      copied_entropy += ((copied_entropy + 111111111) << 9) + 1;
+      copied_entropy += (copied_entropy + 111111111) << 9;
     }
 
-    entropy[i & 7] += quakehash(auxiliary, entropy[(i + 1) & 7]);
+    entropy[i & 7] += copied_entropy;
     i++;
   }
 
