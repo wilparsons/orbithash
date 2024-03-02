@@ -40,20 +40,20 @@ void orbithash(const char *input, uint32_t *entropy) {
     i++;
   }
 
-  entropy[0] += (entropy[7] + i) << 1;
-  entropy[1] ^= entropy[0] + entropy[6];
-  entropy[2] += entropy[1] ^ entropy[5];
-  entropy[3] ^= entropy[2] + entropy[1];
-  entropy[4] += (entropy[3] + i) << 1;
-  entropy[5] ^= entropy[4] + entropy[3];
-  entropy[6] += entropy[5] ^ entropy[4];
-  entropy[7] ^= entropy[6] + entropy[5];
-  entropy[6] += (entropy[7] + i) << 11;
-  entropy[5] += (entropy[6] + i) >> 10;
-  entropy[4] += (entropy[5] + i) << 9;
-  entropy[3] += (entropy[4] + i) >> 7;
-  entropy[2] += (entropy[3] + i) << 5;
-  entropy[1] += (entropy[2] + i) >> 4;
-  entropy[0] += (entropy[7] + i) << 3;
-  entropy[7] += (entropy[0] + i) >> 6;
+  entropy[0] += (entropy[7] + entropy[3]) << 9;
+  entropy[1] ^= (entropy[0] + entropy[6]) << 8;
+  entropy[2] += (entropy[1] + entropy[5]) << 7;
+  entropy[3] ^= (entropy[2] + entropy[1]) << 6;
+  entropy[4] += (entropy[3] + entropy[7]) << 5;
+  entropy[5] ^= (entropy[4] + entropy[3]) << 4;
+  entropy[6] += (entropy[5] + entropy[4]) << 3;
+  entropy[7] ^= (entropy[6] + entropy[5]) << 2;
+  entropy[6] += ((entropy[7] ^ i) >> 9) + entropy[5] + i;
+  entropy[5] += ((entropy[6] ^ i) >> 8) + entropy[4] + i;
+  entropy[4] += ((entropy[5] ^ i) >> 7) + entropy[3] + i;
+  entropy[3] += ((entropy[4] ^ i) >> 6) + entropy[2] + i;
+  entropy[2] += ((entropy[3] ^ i) >> 5) + entropy[1] + i;
+  entropy[1] += ((entropy[2] ^ i) >> 4) + entropy[0] + i;
+  entropy[0] += ((entropy[7] ^ i) >> 3) + entropy[7] + i;
+  entropy[7] += ((entropy[0] ^ i) >> 2) + entropy[0] + i;
 }
