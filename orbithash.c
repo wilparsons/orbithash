@@ -25,7 +25,7 @@ void orbithash(const char *input, uint32_t *entropy) {
   i = 0;
 
   while (input[i] != 0) {
-    entropy[i & 7] = input[i] + entropy[(i + 1) & 7];
+    entropy[i & 7] += input[i] + entropy[(i + 1) & 7];
     entropy[i & 7] += (entropy[i & 7] + 1111111111) << 9;
     i++;
   }
