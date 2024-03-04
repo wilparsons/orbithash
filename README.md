@@ -30,8 +30,3 @@ This is the hashing function that accepts the 2 following arguments.
 `entropy` is an array with 8 32-bit unsigned integers. This becomes the 256-bit hash digest result.
 
 The return value data type is `void`.
-
-## Support
-OrbitHash was designed and developed by [Wil Parsons](https://github.com/wilparsons).
-
-I'm available for freelance work to extend, implement or modify OrbitHash and other algorithms.
