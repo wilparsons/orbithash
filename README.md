@@ -16,7 +16,7 @@ int main(void) {
   uint32_t entropy[8];
 
   orbithash(input, entropy);
-  printf("%08x%08x%08x%08x%08x%08x%08x%08x\n", entropy[0], entropy[1], entropy[2], entropy[3], entropy[4], entropy[5], entropy[6], entropy[7]);
+  printf("0x%08x 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x\n", entropy[0], entropy[1], entropy[2], entropy[3], entropy[4], entropy[5], entropy[6], entropy[7]);
   return 0;
 }
 ```
