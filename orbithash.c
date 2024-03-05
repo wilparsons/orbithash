@@ -24,7 +24,7 @@ void orbithash(const char *input, uint32_t *entropy) {
   i = 0;
 
   while (input[i] != 0) {
-    entropy[i & 7] = input[i] + entropy[(i + 1) & 7];
+    entropy[i & 7] += input[i] + entropy[(i + 1) & 7];
     entropy[i & 7] += (entropy[i & 7] + 1111111111) << 9;
     i++;
   }
@@ -44,6 +44,14 @@ void orbithash(const char *input, uint32_t *entropy) {
   entropy[5] ^= (entropy[4] + entropy[3]) << 4;
   entropy[6] += (entropy[5] + entropy[4]) << 3;
   entropy[7] ^= (entropy[6] + entropy[5]) << 2;
+  entropy[0] ^= (entropy[7] + entropy[3]) ^ salt;
+  entropy[1] += (entropy[0] + entropy[6]) ^ salt;
+  entropy[2] ^= (entropy[1] + entropy[5]) ^ salt;
+  entropy[3] += (entropy[2] + entropy[1]) ^ salt;
+  entropy[4] ^= (entropy[3] + entropy[7]) ^ salt;
+  entropy[5] += (entropy[4] + entropy[3]) ^ salt;
+  entropy[6] ^= (entropy[5] + entropy[4]) ^ salt;
+  entropy[7] += (entropy[6] + entropy[5]) ^ salt;
   entropy[6] += ((entropy[(input[0] + entropy[6] + i) & 7] + (entropy[7] ^ i) + salt + i) >> 9) + entropy[5] + salt + i;
   entropy[5] += ((entropy[(input[0] + entropy[5] + i) & 7] + (entropy[6] ^ i) + salt + i) >> 8) + entropy[4] + salt + i;
   entropy[4] += ((entropy[(input[0] + entropy[4] + i) & 7] + (entropy[5] ^ i) + salt + i) >> 7) + entropy[3] + salt + i;
