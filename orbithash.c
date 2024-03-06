@@ -74,5 +74,5 @@ void orbithash(const char *input, uint32_t *entropy) {
   entropy[2] += ((entropy[(entropy[2] ^ state[4]) & 7] + (entropy[2] ^ state[5]) + state[6]) >> 6) + (entropy[3] ^ state[7]);
   entropy[1] += ((entropy[(entropy[1] ^ state[5]) & 7] + (entropy[1] ^ state[6]) + state[7]) >> 5) + (entropy[2] ^ state[0]);
   entropy[0] += ((entropy[(entropy[0] ^ state[6]) & 7] + (entropy[0] ^ state[7]) + state[0]) >> 4) + (entropy[1] ^ state[1]);
-  entropy[7] += (((state[1] ^ state[2] ^ state[3]) << 16) | ((state[4] ^ state[5] ^ state[6]) >> 16)) + state[7];
+  entropy[7] += entropy[0] + (((state[1] ^ state[2] ^ state[3]) << 16) | ((state[4] ^ state[5] ^ state[6]) >> 16)) + state[7];
 }
