@@ -1,7 +1,7 @@
 #include "orbithash.h"
 
 void orbithash(const char *input, uint32_t *entropy) {
-  uint32_t salt;
+  uint32_t salt[7];
   unsigned long i = 0;
 
   entropy[0] = 1111111111;
@@ -17,10 +17,18 @@ void orbithash(const char *input, uint32_t *entropy) {
 
   while (i != 7) {
     i++;
-    entropy[i] = entropy[i - 1] + 1;
+    entropy[i] = entropy[i - 1] + 1111111111;
     entropy[i] += (entropy[i] + 111111111) << 9;
   }
 
+  salt[0] = entropy[0];
+  salt[1] = entropy[1];
+  salt[2] = entropy[2];
+  salt[3] = entropy[3];
+  salt[4] = entropy[4];
+  salt[5] = entropy[5];
+  salt[6] = entropy[6];
+  salt[7] = entropy[7];
   i = 0;
 
   while (input[i] != 0) {
@@ -30,34 +38,41 @@ void orbithash(const char *input, uint32_t *entropy) {
   }
 
   while (i < 7) {
-    entropy[i] += entropy[i + 1] + 1;
+    entropy[i] += entropy[i + 1] + 1111111111;
     entropy[i] += (entropy[i] + 111111111) << 9;
     i++;
   }
 
-  salt = entropy[i & 7];
-  entropy[0] += (entropy[7] + entropy[3]) << 9;
-  entropy[1] ^= (entropy[0] + entropy[6]) << 8;
-  entropy[2] += (entropy[1] + entropy[5]) << 7;
-  entropy[3] ^= (entropy[2] + entropy[1]) << 6;
-  entropy[4] += (entropy[3] + entropy[7]) << 5;
-  entropy[5] ^= (entropy[4] + entropy[3]) << 4;
-  entropy[6] += (entropy[5] + entropy[4]) << 3;
-  entropy[7] ^= (entropy[6] + entropy[5]) << 2;
-  entropy[0] ^= (entropy[7] + entropy[3]) ^ salt;
-  entropy[1] += (entropy[0] + entropy[6]) ^ salt;
-  entropy[2] ^= (entropy[1] + entropy[5]) ^ salt;
-  entropy[3] += (entropy[2] + entropy[1]) ^ salt;
-  entropy[4] ^= (entropy[3] + entropy[7]) ^ salt;
-  entropy[5] += (entropy[4] + entropy[3]) ^ salt;
-  entropy[6] ^= (entropy[5] + entropy[4]) ^ salt;
-  entropy[7] += (entropy[6] + entropy[5]) ^ salt;
-  entropy[6] += ((entropy[(input[0] + entropy[6] + i) & 7] + (entropy[7] ^ i) + salt + i) >> 9) + entropy[5] + salt + i;
-  entropy[5] += ((entropy[(input[0] + entropy[5] + i) & 7] + (entropy[6] ^ i) + salt + i) >> 8) + entropy[4] + salt + i;
-  entropy[4] += ((entropy[(input[0] + entropy[4] + i) & 7] + (entropy[5] ^ i) + salt + i) >> 7) + entropy[3] + salt + i;
-  entropy[3] += ((entropy[(input[0] + entropy[3] + i) & 7] + (entropy[4] ^ i) + salt + i) >> 6) + entropy[2] + salt + i;
-  entropy[2] += ((entropy[(salt + i) & 7] + (entropy[3] ^ i) + salt + i) >> 5) + entropy[1] + salt + i;
-  entropy[1] += ((entropy[(input[0] + salt + i) & 7] + (entropy[2] ^ i) + salt + i) >> 4) + entropy[0] + salt + i;
-  entropy[0] += ((entropy[(input[0] + salt) & 7] + (entropy[7] ^ i) + salt + i) >> 3) + entropy[1] + salt + i;
-  entropy[7] += ((entropy[(input[0] + i) & 7] + (entropy[0] ^ i) + salt + i) >> 2) + entropy[2] + salt + i;
+  salt[0] += entropy[0];
+  salt[1] += entropy[1];
+  salt[2] += entropy[2];
+  salt[3] += entropy[3];
+  salt[4] += entropy[4];
+  salt[5] += entropy[5];
+  salt[6] += entropy[6];
+  salt[7] += entropy[7];
+  entropy[0] += (entropy[6] ^ entropy[7]) << 10;
+  entropy[1] ^= (entropy[0] + entropy[7]) << 9;
+  entropy[2] += (entropy[0] ^ entropy[1]) << 8;
+  entropy[3] ^= (entropy[1] + entropy[2]) << 7;
+  entropy[4] += (entropy[2] ^ entropy[3]) << 6;
+  entropy[5] ^= (entropy[3] + entropy[4]) << 5;
+  entropy[6] += (entropy[4] ^ entropy[5]) << 4;
+  entropy[7] ^= (entropy[5] + entropy[6]) << 3;
+  entropy[0] += entropy[7] ^ salt[0];
+  entropy[1] ^= entropy[0] ^ salt[1];
+  entropy[2] += entropy[1] ^ salt[2];
+  entropy[3] ^= entropy[2] ^ salt[3];
+  entropy[4] += entropy[3] ^ salt[4];
+  entropy[5] ^= entropy[4] ^ salt[5];
+  entropy[6] += entropy[5] ^ salt[6];
+  entropy[7] ^= entropy[6] ^ salt[7];
+  entropy[6] += ((entropy[(salt[0] ^ entropy[6]) & 7] + (salt[1] ^ entropy[6]) + salt[2]) >> 10) + (salt[3] ^ entropy[7]);
+  entropy[5] += ((entropy[(salt[1] ^ entropy[5]) & 7] + (salt[2] ^ entropy[5]) + salt[3]) >> 9) + (salt[4] ^ entropy[6]);
+  entropy[4] += ((entropy[(salt[2] ^ entropy[4]) & 7] + (salt[3] ^ entropy[4]) + salt[4]) >> 8) + (salt[5] ^ entropy[5]);
+  entropy[3] += ((entropy[(salt[3] ^ entropy[3]) & 7] + (salt[4] ^ entropy[3]) + salt[5]) >> 7) + (salt[6] ^ entropy[4]);
+  entropy[2] += ((entropy[(salt[4] ^ entropy[2]) & 7] + (salt[5] ^ entropy[2]) + salt[6]) >> 6) + (salt[7] ^ entropy[3]);
+  entropy[1] += ((entropy[(salt[5] ^ entropy[1]) & 7] + (salt[6] ^ entropy[1]) + salt[7]) >> 5) + (salt[0] ^ entropy[2]);
+  entropy[0] += ((entropy[(salt[6] ^ entropy[0]) & 7] + (salt[7] ^ entropy[0]) + salt[0]) >> 4) + (salt[1] ^ entropy[1]);
+  entropy[7] += ((salt[1] ^ salt[2] ^ salt[3]) << 16) | ((salt[4] ^ salt[5] ^ salt[6]) >> 16) + salt[7];
 }
