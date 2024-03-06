@@ -67,12 +67,12 @@ void orbithash(const char *input, uint32_t *entropy) {
   entropy[5] ^= entropy[4] ^ state[5];
   entropy[6] += entropy[5] ^ state[6];
   entropy[7] ^= entropy[6] ^ state[7];
-  entropy[6] += ((entropy[(state[0] ^ entropy[6]) & 7] + (state[1] ^ entropy[6]) + state[2]) >> 10) + (state[3] ^ entropy[7]);
-  entropy[5] += ((entropy[(state[1] ^ entropy[5]) & 7] + (state[2] ^ entropy[5]) + state[3]) >> 9) + (state[4] ^ entropy[6]);
-  entropy[4] += ((entropy[(state[2] ^ entropy[4]) & 7] + (state[3] ^ entropy[4]) + state[4]) >> 8) + (state[5] ^ entropy[5]);
-  entropy[3] += ((entropy[(state[3] ^ entropy[3]) & 7] + (state[4] ^ entropy[3]) + state[5]) >> 7) + (state[6] ^ entropy[4]);
-  entropy[2] += ((entropy[(state[4] ^ entropy[2]) & 7] + (state[5] ^ entropy[2]) + state[6]) >> 6) + (state[7] ^ entropy[3]);
-  entropy[1] += ((entropy[(state[5] ^ entropy[1]) & 7] + (state[6] ^ entropy[1]) + state[7]) >> 5) + (state[0] ^ entropy[2]);
-  entropy[0] += ((entropy[(state[6] ^ entropy[0]) & 7] + (state[7] ^ entropy[0]) + state[0]) >> 4) + (state[1] ^ entropy[1]);
+  entropy[6] += ((entropy[(entropy[6] ^ state[0]) & 7] + (entropy[6] ^ state[1]) + state[2]) >> 10) + (entropy[7] ^ state[3]);
+  entropy[5] += ((entropy[(entropy[5] ^ state[1]) & 7] + (entropy[5] ^ state[2]) + state[3]) >> 9) + (entropy[6] ^ state[4]);
+  entropy[4] += ((entropy[(entropy[4] ^ state[2]) & 7] + (entropy[4] ^ state[3]) + state[4]) >> 8) + (entropy[5] ^ state[5]);
+  entropy[3] += ((entropy[(entropy[3] ^ state[3]) & 7] + (entropy[3] ^ state[4]) + state[5]) >> 7) + (entropy[4] ^ state[6]);
+  entropy[2] += ((entropy[(entropy[2] ^ state[4]) & 7] + (entropy[2] ^ state[5]) + state[6]) >> 6) + (entropy[3] ^ state[7]);
+  entropy[1] += ((entropy[(entropy[1] ^ state[5]) & 7] + (entropy[1] ^ state[6]) + state[7]) >> 5) + (entropy[2] ^ state[0]);
+  entropy[0] += ((entropy[(entropy[0] ^ state[6]) & 7] + (entropy[0] ^ state[7]) + state[0]) >> 4) + (entropy[1] ^ state[1]);
   entropy[7] += (((state[1] ^ state[2] ^ state[3]) << 16) | ((state[4] ^ state[5] ^ state[6]) >> 16)) + state[7];
 }
