@@ -9,7 +9,7 @@ Read [this article](https://medium.com/@williamstaffordparsons/orbithash-is-a-ne
 ## License
 Copyright 2024 William Stafford Parsons
 
-OrbitHash is protected under copyright and subject to semi-proprietary software licensing terms in the [LICENSE file](https://github.com/williamstaffordparsons/orbithash/blob/master/LICENSE).
+OrbitHash is protected under copyright and subject to software licensing terms in the [LICENSE file](https://github.com/williamstaffordparsons/orbithash/blob/master/LICENSE).
 
 ## Reference
 #### `orbithash()`
