@@ -7,8 +7,6 @@ OrbitHash is a 256-bit, cryptographic hashing algorithm.
 Read [this article](https://medium.com/@williamstaffordparsons/orbithash-is-a-new-256-bit-secure-hashing-algorithm-without-additive-prime-number-constants-794940fce75e) for an in-depth explanation.
 
 ## License
-Copyright 2024 William Stafford Parsons
-
 OrbitHash is protected under copyright and subject to software licensing terms in the [LICENSE file](https://github.com/williamstaffordparsons/orbithash/blob/master/LICENSE).
 
 ## Reference
